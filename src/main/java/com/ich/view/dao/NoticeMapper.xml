@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ich.view.dao.NoticeMapper" >
+
+    <insert id="insert" parameterType="com.ich.view.pojo.Notice" useGeneratedKeys="true" keyProperty="id"  >
+        INSERT INTO ich_view_note(classid,classname,createtime,title,samlltitle,author,keyword,tag,tagname,postion,postionname,http,img,info,html,status,readnum)
+        VALUES(#{classid},#{classname},#{createtime},#{title},#{samlltitle},#{author},#{keyword},#{tag},#{tagname},#{postion},#{postionname},#{http},#{img},#{info},#{html},#{status},0)
+    </insert>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM ich_view_note WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.ich.view.pojo.Notice">
+        UPDATE ich_view_note
+        SET classid = #{classid},classname = #{classname},createtime = #{createtime},title = #{title},samlltitle = #{samlltitle},
+        author = #{author},keyword = #{keyword},tag = #{tag},tagname = #{tagname},postion = #{postion},postionname = #{postionname},http = #{http},img = #{img},info = #{info},html = #{html},status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateBatchClassid">
+        UPDATE ich_view_note SET classid = #{nid} WHERE classid = #{oid}
+    </update>
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE ich_view_note
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateReadnum" parameterType="Long">
+        UPDATE ich_view_note
+        SET readnum = readnum + 1
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByPrimaryKey" resultType="com.ich.view.pojo.Notice" parameterType="Long">
+        SELECT * FROM ich_view_note WHERE id = #{id}
+    </select>
+
+    <select id="selectByClassid" resultType="com.ich.view.pojo.Notice" parameterType="Long">
+        SELECT id,classid,classname,createtime,title,samlltitle,author,keyword,tag,tagname,postion,postionname,http,img,info,status,readnum  FROM ich_view_note WHERE classid = #{classid}
+    </select>
+
+    <select id="selectByEffectiveList" resultType="com.ich.view.pojo.Notice" parameterType="map">
+        SELECT id,classid,classname,createtime,title,samlltitle,author,keyword,tag,tagname,postion,postionname,http,img,info,status,readnum  FROM ich_view_note
+        WHERE status = 1
+        <if test="classid != null">  AND classid = #{classid} </if>
+        <if test="keyword != null and keyword != ''">  AND keyword like '%${keyword}%' </if>
+        <if test="postion != null and postion != ''">  AND postion like '%${postion}%' </if>
+        <if test="author != null and author != ''">  AND author like '%${author}%' </if>
+        <if test="searchkey != null and searchkey != '' ">  AND (title like '%${searchkey}%' OR keyword like '%${searchkey}%' OR info like '%${searchkey}%') </if>
+        ORDER BY createtime DESC
+    </select>
+
+    <select id="selectByAdminList" resultType="com.ich.view.pojo.Notice" parameterType="map">
+        SELECT id,classid,classname,createtime,title,samlltitle,author,keyword,tag,tagname,postion,postionname,http,img,info,status,readnum  FROM ich_view_note
+        WHERE 1 = 1
+        <if test="classid != null">  AND classid = #{classid} </if>
+        <if test="keyword != null and keyword != ''">  AND keyword like '%${keyword}%' </if>
+        <if test="postion != null and postion != ''">  AND postion like '%${postion}%' </if>
+        <if test="author != null and author != ''">  AND author like '%${author}%' </if>
+        <if test="searchkey != null and searchkey != '' ">  AND (title like '%${searchkey}%' OR keyword like '%${searchkey}%' OR info like '%${searchkey}%') </if>
+        ORDER BY createtime DESC
+    </select>
+</mapper>

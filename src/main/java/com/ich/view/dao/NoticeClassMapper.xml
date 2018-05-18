@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ich.view.dao.NoticeClassMapper" >
+
+    <insert id="insert" parameterType="com.ich.view.pojo.NoticeClass" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ich_view_noteclass(pid,name,remark)
+        VALUES(#{pid},#{name},#{remark})
+    </insert>
+
+    <update id="update" parameterType="com.ich.view.pojo.NoticeClass">
+        UPDATE ich_view_noteclass
+        SET pid = #{pid},name = #{name},remark = #{remark}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        DELETE FROM ich_view_noteclass WHERE id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" resultType="com.ich.view.pojo.NoticeClass" parameterType="Long">
+        SELECT * FROM ich_view_noteclass WHERE id = #{id}
+    </select>
+
+    <select id="selectClassByPid" resultType="com.ich.view.pojo.NoticeClass" parameterType="Long">
+        SELECT * FROM ich_view_noteclass WHERE pid = #{pid}
+    </select>
+
+    <select id="selectClassByPidRoot" resultType="com.ich.view.pojo.NoticeClass" parameterType="Long">
+        SELECT * FROM ich_view_noteclass WHERE pid is null
+    </select>
+
+</mapper>

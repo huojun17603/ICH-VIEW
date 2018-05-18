@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ich.view.dao.ViewTagMapper" >
+
+    <insert id="insert" parameterType="com.ich.view.pojo.ViewTag">
+        INSERT INTO ich_view_tag(code,name,remark)
+        VALUES(#{code},#{name},#{remark})
+    </insert>
+
+    <update id="update" parameterType="com.ich.view.pojo.ViewTag">
+        UPDATE ich_view_tag
+        SET name = #{name},remark = #{remark}
+        WHERE code = #{code}
+    </update>
+
+    <select id="selectByPrimaryKey" resultType="com.ich.view.pojo.ViewTag" parameterType="String">
+        SELECT * FROM ich_view_tag WHERE code = #{code}
+    </select>
+
+    <select id="selectAll" resultType="com.ich.view.pojo.ViewTag">
+        SELECT * FROM ich_view_tag ORDER BY code ASC
+    </select>
+
+    <select id="selectNames"  resultType="com.ich.view.pojo.ViewTag">
+        SELECT * FROM ich_view_tag Where code in
+        <foreach item="tagid" collection="tagids" open="(" separator="," close=")">
+            #{tagid}
+        </foreach>
+    </select>
+
+</mapper>

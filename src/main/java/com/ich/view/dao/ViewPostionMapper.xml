@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ich.view.dao.ViewPostionMapper" >
+
+    <insert id="insert" parameterType="com.ich.view.pojo.ViewPostion">
+        INSERT INTO ich_view_postion(code,classes,name,remark)
+        VALUES(#{code},#{classes},#{name},#{remark})
+    </insert>
+
+    <update id="update" parameterType="com.ich.view.pojo.ViewPostion">
+        UPDATE ich_view_postion
+        SET classes=#{classes}, name = #{name},remark = #{remark}
+        WHERE code = #{code}
+    </update>
+
+    <select id="selectByPrimaryKey" resultType="com.ich.view.pojo.ViewPostion" parameterType="String">
+        SELECT * FROM ich_view_postion WHERE code = #{code}
+    </select>
+
+    <select id="selectAll" resultType="com.ich.view.pojo.ViewPostion">
+        SELECT * FROM ich_view_postion ORDER BY code ASC
+    </select>
+
+    <select id="selectByClasses" parameterType="Integer" resultType="com.ich.view.pojo.ViewPostion">
+        SELECT * FROM ich_view_postion WHERE classes = #{classes} ORDER BY code ASC
+    </select>
+
+    <select id="selectNames" resultType="com.ich.view.pojo.ViewPostion">
+        SELECT * FROM ich_view_postion Where code in
+        <foreach item="postionid" collection="postionids" open="(" separator="," close=")">
+            #{postionid}
+        </foreach>
+    </select>
+
+</mapper>

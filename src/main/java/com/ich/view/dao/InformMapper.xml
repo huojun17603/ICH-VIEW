@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ich.view.dao.InformMapper" >
+
+    <insert id="insert" parameterType="com.ich.view.pojo.Inform" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ich_view_inform(info,source,sourceid,createtime,endtime)
+        VALUES(#{info},#{source},#{sourceid},#{createtime},#{endtime})
+    </insert>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM ich_view_inform  WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.ich.view.pojo.Inform">
+        UPDATE ich_view_inform
+        SET info = #{info},source = #{source},sourceid = #{sourceid},createtime = #{createtime},endtime = #{endtime}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateToEnd" parameterType="Long">
+        UPDATE ich_view_inform SET endtime = now()
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByPrimaryKey" resultType="com.ich.view.pojo.Inform" parameterType="Long">
+        SELECT * FROM ich_view_inform WHERE id = #{id}
+    </select>
+
+    <select id="selectEffectiveInform" resultType="com.ich.view.pojo.Inform">
+        SELECT * FROM ich_view_inform WHERE endtime > now() ORDER BY createtime DESC
+    </select>
+
+    <select id="selectEffectiveInformBySource"  resultType="com.ich.view.pojo.Inform">
+        SELECT * FROM ich_view_inform
+        WHERE endtime > now() AND source = #{source} AND sourceid = #{sourceid}
+        ORDER BY createtime DESC
+    </select>
+
+    <select id="selectAllInform" resultType="com.ich.view.pojo.Inform">
+        SELECT * FROM ich_view_inform ORDER BY createtime DESC
+    </select>
+
+</mapper>
