@@ -41,7 +41,7 @@ public class NoticeServiceImpl implements NoticeService {
             List<ViewPostion> postions = postionMapper.selectNames(postionids);
             String posionname = "";
             for (ViewPostion postion : postions) posionname += postion.getName() + ",";
-            if (ObjectHelper.isNotEmpty(posionname)) posionname = posionname.substring(0, posionname.length());
+            if (ObjectHelper.isNotEmpty(posionname)) posionname = posionname.substring(0, posionname.length()-1);
             notice.setPostionname(posionname);
         }
         if(ObjectHelper.isNotEmpty(notice.getTag())) {
@@ -49,7 +49,7 @@ public class NoticeServiceImpl implements NoticeService {
             List<ViewTag> tags = tagMapper.selectNames(tagids);
             String tagname = "";
             for (ViewTag tag : tags) tagname += tag.getName() + ",";
-            if (ObjectHelper.isNotEmpty(tagname)) tagname = tagname.substring(0, tagname.length());
+            if (ObjectHelper.isNotEmpty(tagname)) tagname = tagname.substring(0, tagname.length()-1);
             notice.setTagname(tagname);
         }
         notice.setCreatetime(new Date());
